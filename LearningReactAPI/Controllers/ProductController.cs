@@ -1,9 +1,9 @@
-﻿using System;
+﻿using LearningReactAPI.Data;
+using LearningReactAPI.Data.Models;
+using LearningReactAPI.Services;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace LearningReactAPI.Controllers
 {
@@ -11,12 +11,21 @@ namespace LearningReactAPI.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        // GET: api/Product
-        [HttpGet]
-        public IEnumerable<string> Get()
+        #region Attributes and constructors
+        private readonly IProductService productService;
+
+        public ProductController(IProductService productService)
         {
-            return new string[] { "value1", "value2" };
+            this.productService = productService;
         }
+        #endregion
+
+        [HttpGet]
+        public List<Product> GetAll()
+        {
+            return this.productService.GetAll();
+        }
+
 
         // GET: api/Product/5
         [HttpGet("{id}", Name = "Get")]
