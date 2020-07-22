@@ -1,9 +1,8 @@
-﻿using LearningReactAPI.Data;
-using LearningReactAPI.Data.Models;
+﻿using LearningReactAPI.Data.Models;
+using LearningReactAPI.Domain.ViewModels;
 using LearningReactAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace LearningReactAPI.Controllers
 {
@@ -21,35 +20,34 @@ namespace LearningReactAPI.Controllers
         #endregion
 
         [HttpGet]
-        public List<Product> GetAll()
+        public List<ProductVM> GetAll()
         {
-            return this.productService.GetAll();
+           return this.productService.GetAll();
         }
 
-
-        // GET: api/Product/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public ProductVM Get(int id)
         {
-            return "value";
+            return this.productService.Get(id);
         }
 
-        // POST: api/Product
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Product product)
         {
+            this.productService.Add(product);
         }
 
-        // PUT: api/Product/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] Product product)
         {
+            product.Id = id;
+            this.productService.Update(id, product);
         }
 
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            this.productService.Remove(id);
         }
     }
 }

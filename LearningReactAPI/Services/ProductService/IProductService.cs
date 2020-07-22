@@ -1,4 +1,5 @@
 ﻿using LearningReactAPI.Data.Models;
+using LearningReactAPI.Domain.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace LearningReactAPI.Services
 {
     public interface IProductService
     {
-        public List<Product> GetAll();
-        public Product Get();
+        public List<ProductVM> GetAll();
+        public ProductVM Get(int id);
         public void Add(Product product);
-        public void Update(Product product);
+        public void Update(int id, Product product);
         public void Remove(int productId);
     }
 }
