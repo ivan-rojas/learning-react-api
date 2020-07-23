@@ -13,17 +13,17 @@ namespace LearningReactAPI.Services
     {
         #region Attributes and constructors
         private readonly LearningReactDbContext db;
-
-        public ProductService(LearningReactDbContext db)
+        private readonly IValidationService validationService;
+        public ProductService(LearningReactDbContext db, IValidationService validationService)
         {
             this.db = db;
+            this.validationService = validationService;
         }
         #endregion
 
         public void Add(Product product)
         {
-            // TODO: Add validation cost-price
-
+            this.validationService.ValidateProduct(product);
             this.db.Products.Add(product);
             this.db.SaveChanges();
         }
@@ -31,7 +31,10 @@ namespace LearningReactAPI.Services
         public ProductVM Get(int id)
         {
             var product = this.db.Products.Include(x => x.Brand).FirstOrDefault(x => x.Id == id);
-            // TODO: Add validation if it's null
+
+            if (product is null)
+                throw new ApplicationException($"The product with ID {id} couldn't be found.");
+
             return new ProductVM
             {
                 Id = product.Id,
@@ -72,16 +75,25 @@ namespace LearningReactAPI.Services
             return productVmList;
         }
 
-        public void Remove(int productId)
+        public void Remove(int id)
         {
-            Product product = this.db.Products.Find(productId);
+            Product product = this.db.Products.Find(id);
+
+            if (product is null)
+                throw new ApplicationException($"The product with ID {id} couldn't be found.");
+
             this.db.Products.Remove(product);
             this.db.SaveChanges();
         }
 
         public void Update(int id, Product product)
         {
+            this.validationService.ValidateProduct(product);
             Product productToUpdate = this.db.Products.Find(id);
+
+            if (productToUpdate is null)
+                throw new ApplicationException($"The product with ID {id} couldn't be found.");
+
             productToUpdate.Name = product.Name;
             productToUpdate.Cost = product.Cost;
             productToUpdate.Price = product.Price;

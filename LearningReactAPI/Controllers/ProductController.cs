@@ -2,6 +2,7 @@
 using LearningReactAPI.Domain.ViewModels;
 using LearningReactAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace LearningReactAPI.Controllers
@@ -20,34 +21,74 @@ namespace LearningReactAPI.Controllers
         #endregion
 
         [HttpGet]
-        public List<ProductVM> GetAll()
+        public ActionResult GetAll()
         {
-           return this.productService.GetAll();
+            try
+            {
+                var productList = this.productService.GetAll();
+                return Ok(productList);
+            }
+            catch(ApplicationException exception)
+            {
+                return StatusCode(405, exception.Message);
+            }
         }
 
         [HttpGet("{id}", Name = "Get")]
-        public ProductVM Get(int id)
+        public ActionResult Get(int id)
         {
-            return this.productService.Get(id);
+            try
+            {
+                var product = this.productService.Get(id);
+                return Ok(product);
+            }
+            catch(ApplicationException exception)
+            {
+                return StatusCode(405, exception.Message);
+            }
         }
 
         [HttpPost]
-        public void Post([FromBody] Product product)
+        public ActionResult Post([FromBody] Product product)
         {
-            this.productService.Add(product);
+            try
+            {
+                this.productService.Add(product);
+                return Ok();
+            }
+            catch (ApplicationException exception)
+            {
+                return StatusCode(405, exception.Message);
+            }
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Product product)
+        public ActionResult Put(int id, [FromBody] Product product)
         {
-            product.Id = id;
-            this.productService.Update(id, product);
+            try
+            {
+                product.Id = id;
+                this.productService.Update(id, product);
+                return Ok();
+            }
+            catch (ApplicationException exception)
+            {
+                return StatusCode(405, exception.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            this.productService.Remove(id);
+            try
+            {
+                this.productService.Remove(id);
+                return Ok();
+            }
+            catch (ApplicationException exception)
+            {
+                return StatusCode(405, exception.Message);
+            }
         }
     }
 }

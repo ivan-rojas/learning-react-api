@@ -13,6 +13,6 @@ namespace LearningReactAPI.Services
         public ProductVM Get(int id);
         public void Add(Product product);
         public void Update(int id, Product product);
-        public void Remove(int productId);
+        public void Remove(int id);
     }
 }

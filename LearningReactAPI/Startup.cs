@@ -25,6 +25,7 @@ namespace LearningReactAPI
             services.AddDbContext<LearningReactDbContext>(x => x.UseMySQL(Configuration.GetConnectionString("local")));
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IValidationService, ValidationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
