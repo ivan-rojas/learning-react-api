@@ -1,13 +1,10 @@
-﻿using LearningReactAPI.Data.Models;
-using System;
+﻿using LearningReactAPI.Domain.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LearningReactAPI.Services
 {
     public interface IBrandService
     {
-        public List<Brand> GetAll();
+        public List<BrandVM> GetAll();
     }
 }

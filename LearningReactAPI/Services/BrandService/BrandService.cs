@@ -1,5 +1,6 @@
 ﻿using LearningReactAPI.Data;
 using LearningReactAPI.Data.Models;
+using LearningReactAPI.Domain.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,23 @@ namespace LearningReactAPI.Services
         }
         #endregion
 
-        public List<Brand> GetAll()
+        public List<BrandVM> GetAll()
         {
-            return this.db.Brands.ToList();
+            List<BrandVM> brandVmList = new List<BrandVM>();
+
+            var brandList = this.db.Brands.ToList();
+            foreach(var brand in brandList)
+            {
+                BrandVM brandVm = new BrandVM
+                {
+                    Id = brand.Id,
+                    Name = brand.Name
+                };
+
+                brandVmList.Add(brandVm);
+            }
+
+            return brandVmList;
         }
     }
 }
