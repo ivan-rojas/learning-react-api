@@ -23,7 +23,9 @@ namespace LearningReactAPI
         {
             services.AddCors();
             services.AddControllers();
-            services.AddDbContext<LearningReactDbContext>(x => x.UseMySQL(Configuration.GetConnectionString("local")));
+            // TODO: Figure out how to use the Configuration.GetConnectionString when you run the solution for the xUnit project.
+            services.AddDbContext<LearningReactDbContext>(x => x.UseMySQL("server=localhost;port=3306;database=learning-react-db;user=root"));
+            //services.AddDbContext<LearningReactDbContext>(x => x.UseMySQL(Configuration.GetConnectionString("local")));
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IValidationService, ValidationService>();
